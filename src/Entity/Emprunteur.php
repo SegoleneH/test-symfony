@@ -22,6 +22,9 @@ class Emprunteur
     #[ORM\OneToOne(mappedBy: 'emprunteur', cascade: ['persist', 'remove'])]
     private ?User $user = null;
 
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $tel = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +72,18 @@ class Emprunteur
         }
 
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getTel(): ?string
+    {
+        return $this->tel;
+    }
+
+    public function setTel(?string $tel): static
+    {
+        $this->tel = $tel;
 
         return $this;
     }
