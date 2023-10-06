@@ -27,6 +27,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\OneToOne(inversedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Emprunteur $emprunteur = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -114,5 +117,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getEmprunteur(): ?Emprunteur
+    {
+        return $this->emprunteur;
+    }
+
+    public function setEmprunteur(?Emprunteur $emprunteur): static
+    {
+        $this->emprunteur = $emprunteur;
+
+        return $this;
     }
 }

@@ -19,6 +19,9 @@ class Emprunteur
     #[ORM\Column(length: 190)]
     private ?string $prenom = null;
 
+    #[ORM\OneToOne(mappedBy: 'emprunteur', cascade: ['persist', 'remove'])]
+    private ?User $user = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +47,28 @@ class Emprunteur
     public function setPrenom(string $prenom): static
     {
         $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($user === null && $this->user !== null) {
+            $this->user->setEmprunteur(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($user !== null && $user->getEmprunteur() !== $this) {
+            $user->setEmprunteur($this);
+        }
+
+        $this->user = $user;
 
         return $this;
     }
